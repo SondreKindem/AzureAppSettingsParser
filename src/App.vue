@@ -5,16 +5,21 @@
     </div>
 
     <AzureToAppSettings/>
+
+
   </div>
+  <SlantedBackground/>
 </template>
 
 <script>
 
 import AzureToAppSettings from "@/components/AzureToAppSettings";
+import SlantedBackground from "@/components/SlantedBackground";
 
 export default {
   name: 'App',
   components: {
+    SlantedBackground,
     AzureToAppSettings,
   },
   data() {
@@ -49,6 +54,10 @@ export default {
 :root {
   --oruga-variant-primary: #287761;
   --oruga-variant-primary-invert: #42C3A0;
+}
+
+.o-field__label {
+  mix-blend-mode: multiply;
 }
 
 /*

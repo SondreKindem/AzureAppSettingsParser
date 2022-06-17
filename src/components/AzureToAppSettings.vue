@@ -3,7 +3,7 @@
     <SwitchButton @modeChange="modeChanged($event)"/>
   </div>
 
-  <o-field label="Input">
+  <o-field label="Input" class="text-outlined">
     <CodeEditor ref="azureEditor" @input="azureChanged"
                 :placeholder="mode === Modes.Azure ? 'Paste azure app settings here :)' : 'Paste appsettings.json here :)'"/>
   </o-field>
@@ -19,7 +19,7 @@
     </o-button>
   </div>
 
-  <o-field label="Result">
+  <o-field label="Result" class="text-outlined">
     <CodeEditor :value="result" readonly/>
   </o-field>
 </template>
