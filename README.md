@@ -1,4 +1,10 @@
-# appsettingsparser
+# AppSettingsParser
+
+Helper for converting between appsettings.json/usersecrets and azure app settings.
+
+Live version: [https://appsettings.sonkin.no](https://appsettings.sonkin.no)
+
+Made with Vue, [Oruga](https://oruga.io/), & vue-prism-editor
 
 ## Project setup
 ```
