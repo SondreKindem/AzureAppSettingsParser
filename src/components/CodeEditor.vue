@@ -1,5 +1,6 @@
 <template>
-  <prism-editor :placeholder="placeholder" :readonly="readonly" class="my-editor" v-model="code" @input="handleInput"
+  <prism-editor :placeholder="placeholder" :readonly="readonly" class="my-editor" :class="{'max-height': !expanded}" v-model="code"
+                @input="handleInput"
                 :highlight="highlighter" line-numbers></prism-editor>
 </template>
 
@@ -28,14 +29,17 @@ export default {
     },
     placeholder: {
       type: String
-    }
+    },
   },
 
   beforeMount() {
     this.code = this.value
   },
 
-  data: () => ({code: '{"test": "yep"}'}),
+  data: () => ({
+    code: '{"test": "yep"}',
+    expanded: false
+  }),
   methods: {
     highlighter(code) {
       return highlight(code, languages.json, "json"); // languages.<insert language> to return html with markup
@@ -68,6 +72,10 @@ export default {
   font-size: 14px;
   line-height: 1.5;
   padding: 5px;
+}
+
+.max-height {
+  max-height: 30vh;
 }
 
 /* optional class for removing the outline */

@@ -3,7 +3,12 @@
     <CodeEditor ref="azureEditor" value="{}" @input="azureChanged"/>
   </o-field>
 
-  <o-button @click="convert">Convert</o-button>
+  <p class="has-text-weight-semibold has-text-danger-dark">
+    <span v-if="errorMessage">{{ errorMessage }}</span>
+    <span v-else>&nbsp;</span>
+  </p>
+
+  <o-button icon-pack="mdi" icon-left="sync" icon-left-class="is-spin" @click="convert" class="mb-5" variant="primary">Convert</o-button>
 
   <o-field label="Result">
     <CodeEditor :value="result" readonly/>
@@ -12,6 +17,7 @@
 
 <script>
 import CodeEditor from "@/components/CodeEditor";
+import {convertAzureJson, validateAzureJson} from "@/helpers";
 
 export default {
   name: "AzureToAppSettings",
@@ -19,8 +25,8 @@ export default {
   data() {
     return {
       azure: '{}',
-      result: 'a',
-      ayy: "",
+      result: '',
+      errorMessage: "",
     }
   },
   methods: {
@@ -28,9 +34,35 @@ export default {
       this.azure = e
     },
     convert() {
-      const unparsed = this.$refs.azureEditor.code
-      this.result = unparsed
-      console.log(this.$refs.azureEditor.code)
+      try {
+        const unparsed = this.$refs.azureEditor.code
+
+        let parsed = ""
+        try {
+          parsed = JSON.parse(unparsed)
+        } catch (e) {
+          this.errorMessage = "Error parsing json: " + e.message
+          return
+        }
+
+        if (!parsed) {
+          this.errorMessage = "Json was not parsed"
+          return
+        }
+
+        if (validateAzureJson(parsed)) {
+          this.result = JSON.stringify(convertAzureJson(parsed), null, 2)
+        } else {
+          this.errorMessage = "Json does not have correct syntax :("
+          return
+        }
+
+        this.errorMessage = ""
+
+      } catch (e) {
+        this.errorMessage = "Error converting json: " + e.message
+      }
+
     }
   }
 }

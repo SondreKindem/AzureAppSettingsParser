@@ -1,6 +1,6 @@
 <template>
   <div id="main-wrap">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" src="./assets/logo.png" style="height: 15vh">
     <AzureToAppSettings/>
   </div>
 </template>
@@ -33,7 +33,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 #main-wrap {
   max-width: 1024px;
