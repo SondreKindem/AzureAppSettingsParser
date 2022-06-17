@@ -21,9 +21,22 @@ export function convertAzureJson(json) {
     return converted;
 }
 
+export function convertAppSettingsJson(json) {
+    const converted = []
+    for (const key of Object.keys(json)) {
+        converted.push(
+            {
+                name: key,
+                value: json[key],
+                slotSetting: false
+            })
+    }
+    return converted;
+}
+
 export function validateAppSettingsJson(json) {
     const keys = Object.keys(json)
-    if(keys.length === 0){
+    if (keys.length === 0) {
         return
     }
 
@@ -32,7 +45,7 @@ export function validateAppSettingsJson(json) {
     const isInt = (typeof json[firstKey] === 'number' || json[firstKey] instanceof Number)
     const isBool = (typeof json[firstKey] === 'boolean' || json[firstKey] instanceof Boolean)
 
-    return(!isArray(json) && json[firstKey] && (isString || isInt || isBool))
+    return (!isArray(json) && json[firstKey] && (isString || isInt || isBool))
 }
 
 export const Modes = {

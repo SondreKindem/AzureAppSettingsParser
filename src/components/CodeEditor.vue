@@ -12,7 +12,6 @@ import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhe
 
 // import highlighting library (you can use any library you want just return html string)
 import {highlight, languages} from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-json';
 import 'prismjs/themes/prism-tomorrow.min.css'; // import syntax highlighting styles
 
@@ -47,6 +46,9 @@ export default {
     },
     handleInput() {
       this.$emit('input', this.code)
+    },
+    clear() {
+      this.code = "";
     }
   },
   watch: {

@@ -1,7 +1,7 @@
 <template>
   <div class="switch-button">
     <input @change="checkedChanged" :checked="checked" class="switch-button-checkbox" type="checkbox">
-    <label class="switch-button-label" for=""><span class="switch-button-label-span">Azure</span></label>
+    <label class="switch-button-label" for=""><span class="switch-button-label-span"><o-icon icon="microsoft-azure" pack="mdi" style="font-size: inherit!important;"/>Azure</span></label>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   methods: {
     checkedChanged(e){
       this.checked = e.target.checked
-      console.log(this.checked)
+      this.$emit("modeChange", e.target.checked)
     }
   }
 }

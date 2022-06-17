@@ -50,4 +50,25 @@ export default {
   --oruga-variant-primary: #287761;
   --oruga-variant-primary-invert: #42C3A0;
 }
+
+/*
+Fix broken number formatting
+ */
+.token.number {
+  align-items: inherit!important;
+  background: none!important;
+  border-radius: 0!important;
+  display: inline!important;
+  font-size: inherit!important;
+  height: inherit!important;
+  margin-right: inherit!important;
+  min-width: 2.5em;
+  padding: 0!important;
+  text-align: inherit!important;
+  vertical-align: top;
+}
+.switch-button i.mdi:before{
+  font-size: 18px!important;
+  margin-right: 5px!important;
+}
 </style>
