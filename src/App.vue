@@ -1,15 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="main-wrap">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <AzureToAppSettings/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import AzureToAppSettings from "@/components/AzureToAppSettings";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AzureToAppSettings,
+  },
+  data(){
+    return {
+      test: ""
+    }
+  },
+  methods: {
+    clicked(){
+      this.test = "poop" + Math.random()
+    }
   }
 }
 </script>
@@ -22,5 +34,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+#main-wrap {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px
 }
 </style>
