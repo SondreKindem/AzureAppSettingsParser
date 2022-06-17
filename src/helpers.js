@@ -34,3 +34,8 @@ export function validateAppSettingsJson(json) {
 
     return(!isArray(json) && json[firstKey] && (isString || isInt || isBool))
 }
+
+export const Modes = {
+    Azure: "Azure",
+    AppSettings: "AppSettings"
+}

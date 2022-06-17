@@ -1,6 +1,10 @@
 <template>
+  <div class="is-flex is-justify-content-center m-5">
+    <SwitchButton/>
+  </div>
+
   <o-field label="Input">
-    <CodeEditor ref="azureEditor" value="{}" @input="azureChanged"/>
+    <CodeEditor ref="azureEditor" @input="azureChanged" :placeholder="mode === Modes.Azure ? 'Paste azure app settings here :)' : 'Paste appsettings.json here :)'"/>
   </o-field>
 
   <p class="has-text-weight-semibold has-text-danger-dark">
@@ -8,7 +12,9 @@
     <span v-else>&nbsp;</span>
   </p>
 
-  <o-button icon-pack="mdi" icon-left="sync" icon-left-class="is-spin" @click="convert" class="mb-5" variant="primary">Convert</o-button>
+  <div class="is-flex is-justify-content-center">
+    <o-button icon-pack="mdi" icon-left="sync" icon-left-class="is-spin" @click="convert" class="mb-1" variant="primary">Convert</o-button>
+  </div>
 
   <o-field label="Result">
     <CodeEditor :value="result" readonly/>
@@ -17,21 +23,24 @@
 
 <script>
 import CodeEditor from "@/components/CodeEditor";
-import {convertAzureJson, validateAzureJson} from "@/helpers";
+import {convertAzureJson, Modes, validateAzureJson} from "@/helpers";
+import SwitchButton from "@/components/SwitchButton";
 
 export default {
   name: "AzureToAppSettings",
-  components: {CodeEditor},
+  components: {SwitchButton, CodeEditor},
   data() {
     return {
-      azure: '{}',
+      input: '',
       result: '',
       errorMessage: "",
+      mode: Modes.Azure,
+      Modes
     }
   },
   methods: {
     azureChanged(e) {
-      this.azure = e
+      this.input = e
     },
     convert() {
       try {

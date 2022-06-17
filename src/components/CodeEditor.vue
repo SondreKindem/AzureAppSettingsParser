@@ -1,5 +1,6 @@
 <template>
-  <prism-editor :placeholder="placeholder" :readonly="readonly" class="my-editor" :class="{'max-height': !expanded}" v-model="code"
+  <prism-editor :placeholder="placeholder" :readonly="readonly" class="my-editor" :class="{'max-height': !expanded}"
+                v-model="code"
                 @input="handleInput"
                 :highlight="highlighter" line-numbers></prism-editor>
 </template>
@@ -37,7 +38,7 @@ export default {
   },
 
   data: () => ({
-    code: '{"test": "yep"}',
+    code: '',
     expanded: false
   }),
   methods: {
@@ -84,6 +85,6 @@ export default {
 }
 
 .prism-editor-wrapper .prism-editor__editor, .prism-editor-wrapper .prism-editor__textarea {
-  color: red !important;
+  color: var(--oruga-variant-primary-invert) !important;
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
-  <div id="main-wrap">
-    <img alt="Vue logo" src="./assets/logo.png" style="height: 15vh">
+  <div id="main-wrap" >
+    <div class="is-flex is-justify-content-center flex-">
+      <img alt="Vue logo" src="./assets/logo.png" style="height: 10vh; min-height: 60px">
+    </div>
+
     <AzureToAppSettings/>
   </div>
 </template>
@@ -8,18 +11,22 @@
 <script>
 
 import AzureToAppSettings from "@/components/AzureToAppSettings";
+
 export default {
   name: 'App',
   components: {
     AzureToAppSettings,
   },
-  data(){
+  data() {
     return {
       test: ""
     }
   },
+  beforeCreate() {
+    this.$oruga.config = {}
+  },
   methods: {
-    clicked(){
+    clicked() {
       this.test = "poop" + Math.random()
     }
   }
@@ -27,16 +34,20 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+#app, body, button, input, optgroup, select {
+  font-family: 'Nunito', Avenir, Helvetica, Arial, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
+
 #main-wrap {
   max-width: 1024px;
   margin: 0 auto;
   padding: 20px
+}
+
+:root {
+  --oruga-variant-primary: #287761;
+  --oruga-variant-primary-invert: #42C3A0;
 }
 </style>

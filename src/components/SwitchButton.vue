@@ -1,0 +1,90 @@
+<template>
+  <div class="switch-button">
+    <input @change="checkedChanged" :checked="checked" class="switch-button-checkbox" type="checkbox">
+    <label class="switch-button-label" for=""><span class="switch-button-label-span">Azure</span></label>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "SwitchButton",
+  data(){
+    return {
+      checked: false
+    }
+  },
+  methods: {
+    checkedChanged(e){
+      this.checked = e.target.checked
+      console.log(this.checked)
+    }
+  }
+}
+</script>
+
+<style scoped>
+.switch-button {
+  background: #287761;
+  border-radius: 30px;
+  overflow: hidden;
+  width: 240px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #eeeeee;
+  position: relative;
+  padding-right: 120px;
+  position: relative;
+  font-weight: bold;
+}
+.switch-button:before {
+  content: "JSON";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+.switch-button-checkbox {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+}
+.switch-button-checkbox:checked + .switch-button-label:before {
+  transform: translateX(120px);
+  transition: transform 300ms linear;
+}
+.switch-button-checkbox + .switch-button-label {
+  position: relative;
+  padding: 15px 0;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+.switch-button-checkbox + .switch-button-label:before {
+  content: "";
+  background: #123524;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 30px;
+  transform: translateX(0);
+  transition: transform 300ms;
+}
+.switch-button-checkbox + .switch-button-label .switch-button-label-span {
+  position: relative;
+}
+</style>
