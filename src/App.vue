@@ -1,11 +1,13 @@
 <template>
   <div id="main-wrap" >
     <div class="is-flex is-justify-content-center flex-">
-      <img alt="Vue logo" src="./assets/logo.png" style="height: 10vh; min-height: 60px">
+      <img alt="A very cool logo" src="./assets/logo.png" style="height: 10vh; min-height: 60px">
     </div>
 
-    <AzureToAppSettings/>
+    <AzureReplacer v-if="showReplacer"/>
+    <AzureToAppSettings v-else/>
 
+    <o-button @click="() => this.showReplacer = !this.showReplacer">{{this.showReplacer ? "< Appsettings converter" : "Azure value replacer >"}}</o-button>
 
   </div>
   <SlantedBackground/>
@@ -15,16 +17,19 @@
 
 import AzureToAppSettings from "@/components/AzureToAppSettings";
 import SlantedBackground from "@/components/SlantedBackground";
+import AzureReplacer from "@/components/AzureReplacer.vue";
 
 export default {
   name: 'App',
   components: {
+    AzureReplacer,
     SlantedBackground,
     AzureToAppSettings,
   },
   data() {
     return {
-      test: ""
+      test: "",
+      showReplacer: false
     }
   },
   beforeCreate() {
