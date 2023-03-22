@@ -25,14 +25,13 @@
     </o-button>
   </div>
 
-  <o-field label="Result" class="text-outlined">
+  <o-field :label="`Result (${amountOfLastChanged} modified)`" class="text-outlined">
     <CodeEditor :value="result" readonly/>
   </o-field>
 </template>
 
 <script>
 import CodeEditor from "@/components/CodeEditor";
-import {Modes} from "@/helpers";
 
 export default {
   name: "AzureReplacer",
@@ -42,12 +41,11 @@ export default {
       input: '',
       result: '',
       inputs: 1,
+      amountOfLastChanged: 0,
       vars: {
         1: {value: "", key: ""}
       },
       errorMessage: "",
-      mode: Modes.Azure,
-      Modes
     }
   },
   methods: {
@@ -69,11 +67,8 @@ export default {
         this.vars[idx] = {}
       this.vars[idx]["value"] = e.target.value
     },
-    modeChanged(val) {
-      this.mode = val ? Modes.AppSettings : Modes.Azure
-      this.$refs.azureEditor.clear()
-    },
     convert() {
+      let amountChanged = 0
       const unparsed = this.$refs.azureEditor.code
       let parsed = ""
       try {
@@ -92,10 +87,12 @@ export default {
           if (replacer.key && replacer.key !== "") {
             if (replacer.key === val.name) {
               val.value = replacer.value
+              amountChanged += 1
             }
           }
         }
       }
+      this.amountOfLastChanged = amountChanged
       this.result = JSON.stringify(parsed, null, 2)
     },
   }
