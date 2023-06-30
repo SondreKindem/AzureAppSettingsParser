@@ -59,39 +59,15 @@ function getFlatObject(object) {
 }
 
 function unflattenJson(flatJson) {
-    const unflattenedJson = {};
-
-    for (const [key, value] of Object.entries(flatJson)) {
-        const parts = key.split(/[:]+|__+/); // Split by ":" or "__"
-        let currentObj = unflattenedJson;
-
-        for (let i = 0; i < parts.length - 1; i++) {
-            const part = parts[i];
-            if (Number.isInteger(Number(parts[i + 1]))) {
-                currentObj[part] = currentObj[part] || [];
-                currentObj = currentObj[part];
-            } else {
-                currentObj[part] = currentObj[part] || {};
-                currentObj = currentObj[part];
-            }
-        }
-
-        const lastPart = parts[parts.length - 1];
-        if (Number.isInteger(Number(lastPart))) {
-            const lastPartIndex = Number(lastPart);
-            if (Array.isArray(currentObj)) {
-                if (lastPartIndex >= currentObj.length) {
-                    currentObj.length = lastPartIndex + 1;
-                }
-                currentObj[lastPartIndex] = value;
-            }
-        } else {
-            currentObj[lastPart] = value;
-        }
-    }
-
-    return unflattenedJson;
+    return Object.entries(flatJson).reduce((acc, [key, value]) => {
+        key.split(/[:]+|__+/).reduce((obj, part, index, arr) => {
+            const isLastPart = index === arr.length - 1;
+            return (obj[part] = isLastPart ? value : obj[part] || (Number(arr[index + 1]) >= 0 ? [] : {})), obj[part];
+        }, acc);
+        return acc;
+    }, {});
 }
+
 
 export function validateAppSettingsJson(json) {
     const keys = Object.keys(json)
