@@ -17,6 +17,9 @@
     <o-button icon-pack="mdi" icon-left="sync" icon-left-class="is-spin" @click="convert" class="mb-1"
               variant="primary">Convert
     </o-button>
+    <o-button icon-pack="mdi" icon-left="content-copy" icon-left-class="is-spin" @click="copyResult" class="mb-1 ml-2"
+              variant="primary">Copy result
+    </o-button>
   </div>
 
   <o-field label="Result" class="text-outlined">
@@ -26,7 +29,7 @@
 
 <script>
 import CodeEditor from "@/components/CodeEditor";
-import {convertAppSettingsJson, convertAzureJson, Modes, validateAppSettingsJson, validateAzureJson} from "@/helpers";
+import {convertAppSettingsJson, convertAzureJson, Modes, stripComments, validateAzureJson} from "@/helpers";
 import SwitchButton from "@/components/SwitchButton";
 
 export default {
@@ -56,13 +59,18 @@ export default {
         this.convertAppSettings()
       }
     },
+    copyResult(){
+      navigator.clipboard.writeText(this.result)
+      this.$oruga.notification.open('Copied!')
+    },
     convertAppSettings() {
       try {
         const unparsed = this.$refs.azureEditor.code
 
         let parsed = ""
         try {
-          parsed = JSON.parse(unparsed)
+          const stripped = stripComments(unparsed)
+          parsed = JSON.parse(stripped)
         } catch (e) {
           this.errorMessage = "Error parsing json: " + e.message
           return
@@ -73,15 +81,11 @@ export default {
           return
         }
 
-        if (validateAppSettingsJson(parsed)) {
-          this.result = JSON.stringify(convertAppSettingsJson(parsed), null, 2)
-        } else {
-          this.errorMessage = "Json does not have correct syntax :("
-          return
-        }
+        this.result = JSON.stringify(convertAppSettingsJson(parsed), null, 2)
 
-      } catch (e) {
+      } catch (e) {console.log(e)
         this.errorMessage = "Error converting json: " + e.message
+
       }
     },
     convertAzure() {
@@ -120,5 +124,14 @@ export default {
 </script>
 
 <style scoped>
-
+.toast-notification {
+  margin: 0.5em 0;
+  text-align: center;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
+  border-radius: 2em;
+  padding: 0.75em 1.5em;
+  pointer-events: auto;
+  color: rgba(0, 0, 0, 0.7);
+  background: #ffdd57;
+}
 </style>

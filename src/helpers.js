@@ -4,8 +4,11 @@ export function isArray(what) {
     return Object.prototype.toString.call(what) === '[object Array]';
 }
 
+export function stripComments(jsonString) {
+return jsonString.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m)
+}
+
 export function validateAzureJson(json) {
-    console.log(json[0])
     return (isArray(json)
         && json[0]
         && typeof json[0] === 'object' || json[0] instanceof Object
@@ -14,24 +17,80 @@ export function validateAzureJson(json) {
 }
 
 export function convertAzureJson(json) {
-    const converted = {}
+    const obj = {}
     for (const item of json) {
-        converted[item.name] = item.value
+        obj[item.name] = item.value
     }
-    return converted;
+
+    return unflattenJson(obj)
 }
 
 export function convertAppSettingsJson(json) {
-    const converted = []
-    for (const key of Object.keys(json)) {
-        converted.push(
+    const converted = getFlatObject(json)
+
+    const finished = []
+    for (const key of Object.keys(converted)) {
+        finished.push(
             {
                 name: key,
-                value: json[key],
+                value: converted[key],
                 slotSetting: false
             })
     }
-    return converted;
+    return finished;
+}
+
+/**
+ * Stolen from https://stackoverflow.com/a/39547310
+ */
+function getFlatObject(object) {
+    function iter(o, p) {
+        if (o && typeof o === 'object') {
+            Object.keys(o).forEach(function (k) {
+                iter(o[k], p.concat(k));
+            });
+            return;
+        }
+        path[p.join('__')] = o;
+    }
+    const path = {};
+    iter(object, []);
+    return path;
+}
+
+function unflattenJson(flatJson) {
+    const unflattenedJson = {};
+
+    for (const [key, value] of Object.entries(flatJson)) {
+        const parts = key.split(/[:]+|__+/); // Split by ":" or "__"
+        let currentObj = unflattenedJson;
+
+        for (let i = 0; i < parts.length - 1; i++) {
+            const part = parts[i];
+            if (Number.isInteger(Number(parts[i + 1]))) {
+                currentObj[part] = currentObj[part] || [];
+                currentObj = currentObj[part];
+            } else {
+                currentObj[part] = currentObj[part] || {};
+                currentObj = currentObj[part];
+            }
+        }
+
+        const lastPart = parts[parts.length - 1];
+        if (Number.isInteger(Number(lastPart))) {
+            const lastPartIndex = Number(lastPart);
+            if (Array.isArray(currentObj)) {
+                if (lastPartIndex >= currentObj.length) {
+                    currentObj.length = lastPartIndex + 1;
+                }
+                currentObj[lastPartIndex] = value;
+            }
+        } else {
+            currentObj[lastPart] = value;
+        }
+    }
+
+    return unflattenedJson;
 }
 
 export function validateAppSettingsJson(json) {
