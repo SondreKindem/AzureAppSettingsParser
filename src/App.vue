@@ -5,9 +5,11 @@
     </div>
 
     <AzureReplacer v-if="showReplacer"/>
+    <AzureMerger2 v-else-if="showMerger"/>
     <AzureToAppSettings v-else/>
 
-    <o-button @click="() => this.showReplacer = !this.showReplacer">{{this.showReplacer ? "< Appsettings converter" : "Azure value replacer >"}}</o-button>
+    <o-button @click="goToReplacer">{{this.showReplacer ? "< Appsettings converter" : "Azure value replacer >"}}</o-button>
+    <o-button @click="goToMerge">{{this.showMerger ? "< Appsettings converter" : "Azure appsettings merger >"}}</o-button>
 
   </div>
   <SlantedBackground/>
@@ -18,10 +20,12 @@
 import AzureToAppSettings from "@/components/AzureToAppSettings";
 import SlantedBackground from "@/components/SlantedBackground";
 import AzureReplacer from "@/components/AzureReplacer.vue";
+import AzureMerger2 from "@/components/AzureMerger.vue";
 
 export default {
   name: 'App',
   components: {
+    AzureMerger2,
     AzureReplacer,
     SlantedBackground,
     AzureToAppSettings,
@@ -29,7 +33,8 @@ export default {
   data() {
     return {
       test: "",
-      showReplacer: false
+      showReplacer: false,
+      showMerger: false
     }
   },
   beforeCreate() {
@@ -38,6 +43,14 @@ export default {
   methods: {
     clicked() {
       this.test = "poop" + Math.random()
+    },
+    goToMerge(){
+      this.showMerger = !this.showMerger
+      this.showReplacer = false
+    },
+    goToReplacer(){
+      this.showReplacer = !this.showReplacer
+      this.showMerger = false
     }
   }
 }
