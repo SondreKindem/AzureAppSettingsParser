@@ -52,6 +52,7 @@ jobs:
       with:
         name: page
         path: .
+    - run: ls -l
     - name: Replace string in file
       uses: MathieuSoysal/replace-string-in-file@v1.0.0
       with:
