@@ -53,12 +53,7 @@ jobs:
         name: page
         path: .
     - run: ls -l
-    - name: Replace string in file
-      uses: MathieuSoysal/replace-string-in-file@v1.0.0
-      with:
-        file: ./index.html
-        old-string: '<base href="\/"\/>'
-        new-string: '<base href="\/AzureAppSettingsParser\/"\/>'
+    - run: sed -i 's@<base href="/"/>@<base href="/AzureAppSettingsParser/"/>@g' index.html
     - uses: actions/configure-pages@v1
     - uses: actions/upload-pages-artifact@v1
       with:
