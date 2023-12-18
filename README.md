@@ -2,7 +2,7 @@
 
 Helper for converting between appsettings.json/usersecrets and azure app settings.
 
-Live version: [https://appsettings.sonkin.no](https://appsettings.sonkin.no)
+Live version: [Hosted on github pages](https://sondrekindem.github.io/AzureAppSettingsParser)
 
 Made with Vue, [Oruga](https://oruga.io/), & vue-prism-editor
 
