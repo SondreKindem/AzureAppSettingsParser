@@ -49,6 +49,10 @@ jobs:
           INPUT_PATH: "dist/"
       - name: check
         run: ls -l "$RUNNER_TEMP"
+      - name: wat
+        run: echo "$RUNNER_TEMP"
+      - name: check2
+        run: ls -l /home/runner/work/_temp
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
