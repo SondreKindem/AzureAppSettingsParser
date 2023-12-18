@@ -52,6 +52,12 @@ jobs:
       with:
         name: page
         path: .
+    - name: Replace string in file
+      uses: MathieuSoysal/replace-string-in-file@v1.0.0
+      with:
+        file: index.html
+        old-string: '<base href="/"/>'
+        new-string: '<base href="/AzureAppSettingsParser/"/>'
     - uses: actions/configure-pages@v1
     - uses: actions/upload-pages-artifact@v1
       with:
