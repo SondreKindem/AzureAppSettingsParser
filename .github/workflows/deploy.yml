@@ -37,24 +37,24 @@ jobs:
           done
       - name: Archive artifact
         shell: sh
-        if: runner.os == 'Linux'
         run: |
           tar \
             --dereference --hard-dereference \
-            --directory "$INPUT_PATH" \
+            --directory "dist/" \
             -cvf "$RUNNER_TEMP/artifact.tar" \
             --exclude=.git \
             --exclude=.github \
             .
         env:
           INPUT_PATH: "dist/"
+      - name: check
+        run: ls -l dist/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
           name: "deploy"
           path: ${{ runner.temp }}/artifact.tar
           retention-days: 30
-          if-no-files-found: error
   deploy:
     # Add a dependency to the build job
     needs: build
